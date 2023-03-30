@@ -11,21 +11,15 @@ app.set("views", path.join(__dirname, "views"));
 // La ligne 11 permet de rendre un fichier HTML (bon ici PUG c'est genre du HTML rapide)
 // Mais du coup tu peux faire ta requête, et dans le render, passer ton résultat en paramètre et le récup côté HTML / PUG
 // La ligne 15 tu pourrais la mettre vers la ligne 28 et toc
-app.get("/test", (req, res) => {
+/*app.get("/test", (req, res) => {
     res.render("index");
-});
+});*/
 
 // Requête qui fonctionne vers l'API quand tu vas sur la route / donc localhost/ (tu pourrais mettre /test l.19 donc ça donnerait localhost/test après)
 app.get("/", async (req, res) => {
     try {
-        const params = {
-            action: "query",
-            list: "search",
-            srsearch: "César",
-            format: "json"
-        }
-        const response = await axios.get("https://fr.wikipedia.org/w/api.php", { params })
-        res.json(response.data)
+        const response = await axios.get("https://en.wikipedia.org/api/rest_v1/page/random/summary")
+        res.render("index", { searchs: response.data.title });
     }
     catch (err) {
         console.log(err)
